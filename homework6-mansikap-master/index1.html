@@ -1,0 +1,945 @@
+<!Doctype html>
+<html>
+
+<head>
+  <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+  <meta content="utf-8" http-equiv="encoding">
+  <!-- <script src="jk.js"></script> -->
+  <script src="https://d3js.org/d3.v4.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/holtzy/D3-graph-gallery@master/LIB/d3.layout.cloud.js"></script>
+  <style>
+    .gro {
+      /* background-color: #4CAF50; */
+      /* border: none; */
+      /* color: white; */
+      /* cursor: pointer; */
+      width: 50%;
+      display: block;
+      border: solid 1.5px darkgray;
+      border-radius: 5px;
+    
+    }
+
+    /* .gro:not(:last-child) {
+      border-bottom: none;
+
+    } */
+
+    .btnHover:hover{
+      background-color: green !important;
+    }
+
+    .cardss:hover{
+      box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    }
+    #left {
+      float: left;
+      width: 30%;
+    }
+
+    .right {
+      float: right;
+      width: 70%;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .col {
+      float: left;
+      width: 25%;
+      height: 550px;
+    }
+
+    .colfox {
+      float: left;
+      width: 25%;
+      height: 700px;
+    }
+
+    .rowsare {
+      margin: 0 -5px;
+    }
+
+    .rowsfox {
+      margin: 0 -5px;
+    }
+
+    .rowsare:after {
+      content: "";
+      display: table;
+      clear: both;
+    }
+
+    .rowsfox:after {
+      content: "";
+      display: table;
+      clear: both;
+    }
+
+    .card {
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+      padding: 16px;
+      text-align: center;
+      background-color: #f1f1f1;
+      height: 500px;
+    }
+
+    .cardfox {
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+      padding: 16px;
+      text-align: center;
+      background-color: #f1f1f1;
+      height: 500px;
+      margin-top: -3px;
+    }
+
+    @media screen and (max-width: 600px) {
+      .col {
+        width: 100%;
+        display: block;
+        margin-bottom: 20px;
+      }
+    }
+
+    @media screen and (max-width: 600px) {
+      .colfox {
+        width: 100%;
+        display: block;
+        margin-bottom: 20px;
+      }
+
+      .cardss:hover {
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        /* padding: 16px;
+      text-align: center; */
+        /* background-color: #f1f1f1;
+      height: 500px; */
+      }
+    }
+  </style>
+  <script>
+    var slideIndex = 0;
+    data = 0;
+    showSlides();
+    var myIndex = 0;
+    function showSlides() {
+
+      var url = "saw"
+      xmlhttp = new XMLHttpRequest();
+      xmlhttp.open('GET', url, true)
+      xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status === 200) {
+          try {
+            var data = JSON.parse(xmlhttp.responseText);
+            var genData = data.gen;
+            var element12 = document.createElement('DIV');
+            element12.setAttribute("class", "show1");
+            element12.style.width = '430px'
+            element12.style.height = '280px'
+            element12.style.marginTop = '14px'
+            var count = 1;
+            for (var i = 0; i < genData.length; i++) {
+              var element = document.createElement('DIV');
+              element.setAttribute("class", "abc")
+              element.style.width = '430px'
+              element.style.height = '280px'
+              var Image = document.createElement('IMG');
+              Image.src = genData[i].urlToImage;
+              Image.style.width = '428px'
+              Image.style.height = '278px'
+              Image.style.marginTop = "inherit"
+              Image.style.marginLeft = "inherit"
+              Image.style.marginBottom = "inherit"
+              links = document.createElement('A')
+              links.setAttribute("href", genData[i].url)
+              element.appendChild(Image);
+
+              var description = document.createElement('div');
+              description.innerHTML = genData[i].description;
+              element.appendChild(description);
+              description.style.width = "inherit"
+              description.style.marginTop = "-72px"
+              description.style.color = 'white'
+              description.style.marginTop = '-84px'
+              description.style.color = 'white'
+
+              var tit = document.createElement("div");
+              tit.innerHTML = '<b>' + genData[i].title + '</b>';
+              element.appendChild(tit);
+              tit.style.width = "inherit"
+              tit.style.marginTop = '-115px'
+              tit.style.color = 'white'
+              // tit.style.fontStyle = "bold"
+
+              element12.appendChild(element);
+
+            }
+            var x = document.getElementById('slide');
+            x.appendChild(element12);
+            slideShowStart();
+            function slideShowStart() {
+
+              var x = document.getElementsByClassName("abc");
+              for (i = 0; i < x.length; i++) {
+                x[i].style.display = "none";
+              }
+              myIndex++;
+              if (myIndex > x.length) { myIndex = 1 }
+              x[myIndex - 1].style.display = "block";
+              setTimeout(slideShowStart, 2000); // Change image every 2 seconds
+            }
+
+            //CNN NEWS
+            var cnnw = data.cnews;
+
+            var element13 = document.createElement('DIV');
+            element13.setAttribute("class", "CNN")
+            var el16 = document.createElement('DIV');
+            el16.setAttribute("class", "rowsare")
+            el16.innerHTML = '<P><b>CNN</b></P><hr style="color:black; border-top:dotted 1px">'
+            el16.style.textAlign = "center"
+            el16.style.width = '829px'
+            el16.style.fontSize = '21px'
+            el16.style.marginTop = '-99px'
+
+            for (var i = 0; i < cnnw.length; i++) {
+              var el15 = document.createElement('DIV');
+              el15.setAttribute("class", "col")
+              el15.style.padding = '10px'
+              var el14 = document.createElement('DIV');
+              el14.setAttribute("class", "card")
+              el14.style.borderRadius = '5px'
+
+              var Image1 = document.createElement('IMG');
+              var links = document.createElement('A');
+              Image1.src = cnnw[i].urlToImage;
+              Image1.style.width = '186px'
+              Image1.style.height = '117px'
+              Image1.style.marginLeft = '-15px'
+              Image1.style.marginTop = '-15px'
+              Image1.style.borderRadius = '5px'
+
+              links.setAttribute("href", cnnw[i].url)
+              links.style.textDecoration = 'none'
+              links.style.color = 'black'
+              links.appendChild(Image1);
+
+              var tit1 = document.createElement("div");
+              tit1.innerHTML = '<b>' + cnnw[i].title + '</b>';
+              tit1.style.height = '100px'
+              tit1.style.fontSize = '18px'
+              // tit1.style.marginTop = '-191px'
+              tit1.style.marginBottom = '6px'
+              tit1.style.color = 'black'
+              links.appendChild(tit1);
+
+              var description1 = document.createElement('P');
+              description1.innerHTML = cnnw[i].description;
+              description1.style.height = '50px'
+              description1.style.fontSize = '14px'
+              description1.style.marginTop = '18px'
+              description1.style.color = 'black'
+              tit1.appendChild(description1);
+
+
+
+
+
+              el14.append(links);
+              el15.appendChild(el14);
+              el16.appendChild(el15);
+
+
+
+
+            }
+            element13.appendChild(el16);
+            document.getElementById("news").appendChild(element13);
+
+
+
+            //FOX NEWS
+
+            var top_hd = data.key;
+            var element130 = document.createElement('DIV');
+            element130.setAttribute("class", "FOX")
+            var el160 = document.createElement('DIV');
+            el160.setAttribute("class", "rowsfox")
+            el160.innerHTML = '<P><b>FOX NEWS</b></P><hr>'
+            el160.style.textAlign = "center"
+            el160.style.width = '829px'
+            el160.style.fontSize = '21px'
+            el160.style.marginTop = '-99px'
+            for (var j = 0; j < top_hd.length; j++) {
+              var el150 = document.createElement('DIV');
+              el150.setAttribute("class", "colfox")
+              el150.style.padding = '10px'
+              var el140 = document.createElement('DIV');
+              el140.setAttribute("class", "cardfox")
+              el140.style.borderRadius = '15px'
+              var Image10 = document.createElement('IMG');
+              var linksfox = document.createElement('A');
+              Image10.src = top_hd[j].urlToImage;
+              Image10.style.width = '186px'
+              Image10.style.height = '117px'
+              Image10.style.marginLeft = '-15px'
+              Image10.style.marginTop = '-15px'
+              Image10.style.borderRadius = '5px'
+              linksfox.setAttribute("href", top_hd[j].url)
+              linksfox.style.textDecoration = 'none'
+              linksfox.style.color = 'black'
+              linksfox.appendChild(Image10);
+
+              var tit10 = document.createElement("div");
+              tit10.innerHTML = '<b>' + top_hd[j].title + '</b>';
+              tit10.style.height = '100px'
+              tit10.style.fontSize = '18px'
+              // tit1.style.marginTop = '-191px'
+              tit10.style.marginBottom = '6px'
+              tit10.style.color = 'black'
+              linksfox.appendChild(tit10);
+
+              var description10 = document.createElement('P');
+              description10.innerHTML = top_hd[j].description;
+              description10.style.height = '50px'
+              description10.style.fontSize = '14px'
+              description10.style.marginTop = '18px'
+              description10.style.color = 'black'
+              tit10.appendChild(description10);
+
+              // var tit10 = document.createElement("div");
+              // tit10.innerHTML = '<b>' + top_hd[j].title + '</b>';
+              // linksfox.appendChild(tit10);
+              el140.append(linksfox);
+              el150.appendChild(el140);
+              el160.appendChild(el150);
+            }
+            element130.appendChild(el160);
+            document.getElementById("news").appendChild(element130);
+
+
+
+          }
+          catch (err) {
+            console.log(err.message + "in" + xmlhttp.responseText);
+            return;
+          }
+
+        }
+
+
+      }
+      xmlhttp.send()
+    }
+    showforwordcloud();
+    function showforwordcloud() {
+
+      var url2 = "wordcloud"
+      xmlhttp2 = new XMLHttpRequest();
+      xmlhttp2.open('GET', url2, true)
+      xmlhttp2.onreadystatechange = function () {
+
+        if (xmlhttp2.readyState == 4 && xmlhttp2.status === 200) {
+          try {
+            var data = JSON.parse(xmlhttp2.responseText);
+
+            das(data);
+          }
+          catch (err) {
+            console.log(err.message + "in" + xmlhttp2.responseText);
+            return;
+          };
+        }
+      }
+      xmlhttp2.send()
+    }
+
+    function das(Data) {
+      myWords = Data;
+      var newlist = [];
+      var counter = 0;
+      for (var i in myWords) {
+        var newdict = {}
+        newdict['word'] = i
+        newdict['size'] = myWords[i]
+        newlist[counter] = newdict;
+        counter++;
+
+      }
+
+      myWords = newlist;
+      var margin = { top: 10, right: 10, bottom: 10, left: 10 },
+        width = 350 - margin.left - margin.right,
+        height = 300 - margin.top - margin.bottom;
+
+      // append the svg object to the body of the page
+      var svg = d3.select("#slide").append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+        .attr("id", "svgel")
+        .append("g")
+        .attr("transform",
+          "translate(" + "-10" + "," + "-30" + ") scale(1.25)");
+
+
+      document.getElementById("svgel").style.height = "281px"
+      document.getElementById("svgel").style.width = "383px"
+      document.getElementById("svgel").style.marginRight = "166px"
+      document.getElementById("svgel").style.marginTop = "-1px"
+      document.getElementById("svgel").style.float = "right"
+      document.getElementById("svgel").style.background = 'rgba(128, 128, 128, 0.08) none repeat scroll 0% 0%'
+
+
+      var layout = d3.layout.cloud()
+        .size([width, height])
+        .words(myWords.map(function (d) { return { text: d.word, size: d.size }; }))
+        .padding(7)        //space between words
+        .rotate(function () { return ~~(Math.random() * 2) * 90; })
+        .fontSize(function (d) { return (d.size * 9); })      // font size of words
+        .on("end", draw);
+      layout.start();
+
+
+      function draw(words) {
+        svg
+          .append("g")
+          .attr("transform", "translate(" + layout.size()[0] / 2 + "," + layout.size()[1] / 2 + ")")
+          .selectAll("text")
+          .data(words)
+          .enter().append("text")
+          .style("font-size", function (d) { return d.size + 'px'; })
+          .style("fill", "black")
+          .attr("text-anchor", "middle")
+          .style("font-family", "Impact")
+          .attr("transform", function (d) {
+            return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
+          })
+          .text(function (d) { return d.text; });
+      }
+    }
+    //refresh page
+    function go(calledFrom) {
+      document.getElementById("slide").innerHTML = "";
+      document.getElementById("news").innerHTML = "";
+      if (calledFrom == "search")
+      {
+        formmake();
+        document.getElementById("googleBtn").style.backgroundColor = "#fbf5f5";
+        document.getElementById("googleBtn").style.color = "black";
+        document.getElementById("searchBtn").style.backgroundColor = "#625d5d";
+        document.getElementById("searchBtn").style.color = "white";
+        document.getElementById("slide").style.height = "250px";
+      }
+      else if (calledFrom == "googleSearch")
+      {
+        document.getElementById("searchBtn").style.color = "black";
+        document.getElementById("searchBtn").style.backgroundColor = "#fbf5f5";
+        document.getElementById("googleBtn").style.backgroundColor = "#625d5d";
+        document.getElementById("googleBtn").style.color = "white";
+        document.getElementById("slide").style.height = "400px";
+        showSlides();
+      }
+
+    }
+    //FORM
+    function formmake() {
+      var formdiv = document.createElement("div");
+      formdiv.setAttribute("id", "formDiv");
+
+      formdiv.style.width = '718px'
+      formdiv.style.height = '200px'
+      formdiv.style.background = 'rgba(128,128,128,0.09) none repeat scroll 0% 0%'
+      formdiv.style.padding = '20px'
+
+      var f = document.createElement("form");
+      f.setAttribute("action", "");
+      f.setAttribute('onsubmit', 'return showquery()');
+      var s = document.createElement("input");
+      // s.innerHTML = "Keyword* ";
+      s.setAttribute("id", "keywrd")
+      s.type = "search";
+      s.style.marginLeft = '34px'
+      s.required = true
+
+
+      var keydiv = document.createElement("div");
+      keydiv.setAttribute("id", "keyDiv");
+      keydiv.style.width = '687px'
+      keydiv.style.padding = '0px'
+      var namelabel = document.createElement('label');     //keyword
+      namelabel.innerHTML = "Keyword <sup style='color:red'>*<sup>";
+
+
+      f.appendChild(keydiv);
+      keydiv.appendChild(namelabel);
+      keydiv.appendChild(s);
+
+
+
+      var dateis = document.createElement("INPUT");   //FROM
+
+      dateis.setAttribute("id", "fromdate")
+      dateis.required = true;
+      dateis.setAttribute("type", "date");
+      dateis.setAttribute("value", "");
+      // dateis.innerHTML = "From* ";
+      dateis.style.marginLeft = "14px";
+      dateis.style.width = '126px'
+      var namel = document.createElement('label');    
+      namel.innerHTML = "From <sup style='color:red'>*<sup>";
+      namel.style.marginLeft = '30px'
+      keydiv.appendChild(namel);
+      keydiv.appendChild(dateis);
+      // document.getElementById("fromdate").required = true
+
+
+      var datewas = document.createElement("INPUT");
+      datewas.setAttribute("id", "todate")   //to
+      datewas.required = true;
+      // checkform();
+      datewas.setAttribute("type", "date");
+      datewas.setAttribute("value", "");
+      // datewas.innerHTML = "To* ";
+      datewas.style.marginLeft = '20px'
+      // datewas.style.marginRight = '10px'
+      datewas.style.marginTop = '15px'
+      datewas.style.width = '114px'
+      var namela = document.createElement('label');     //keyword
+      namela.innerHTML = "To <sup style='color:red'>*<sup>";
+      namela.style.marginLeft = '23px'
+      keydiv.appendChild(namela)
+      keydiv.appendChild(datewas);
+      // document.getElementById("todate").required = true
+
+      var catdiv = document.createElement("div");
+      catdiv.setAttribute("id", "catDiv");
+      f.appendChild(catdiv);
+
+      var namelabe = document.createElement('label');    
+      namelabe.innerHTML = "Category";
+      namelabe.style.marginLeft = '165px'
+      catdiv.appendChild(namelabe)
+
+      var categorysel = document.createElement("SELECT");  //category
+      categorysel.setAttribute("id", "mySelect");
+      categorysel.style.marginLeft = '20px'
+      categorysel.setAttribute('onchange', 'mysource(this.value)');
+      catdiv.appendChild(categorysel);
+
+
+      var z = document.createElement("option");
+      z.setAttribute("value", "all");
+      z.style.marginTop = '10px'
+      z.style.marginLeft = '20px'
+      var t = document.createTextNode("all");
+      z.appendChild(t);
+      categorysel.appendChild(z);
+
+      var za = document.createElement("option");
+      za.setAttribute("value", "business");
+      za.style.marginTop = '10px'
+      za.style.marginLeft = '20px'
+      var ta = document.createTextNode("Business");
+      za.appendChild(ta);
+      categorysel.appendChild(za);
+
+      var zat = document.createElement("option");
+      zat.setAttribute("value", "entertainment");
+      zat.style.marginTop = '10px'
+      zat.style.marginLeft = '20px'
+      var tat = document.createTextNode("Entertainment");
+      zat.appendChild(tat);
+      categorysel.appendChild(zat);
+
+      var zata = document.createElement("option");
+      zata.setAttribute("value", "general");
+      zata.style.marginTop = '10px'
+      zata.style.marginLeft = '20px'
+      var tata = document.createTextNode("General");
+      zata.appendChild(tata);
+      categorysel.appendChild(zata);
+
+      var zatah = document.createElement("option");
+      zatah.setAttribute("value", "health");
+      zatah.style.marginTop = '10px'
+      zatah.style.marginLeft = '20px'
+      var tatah = document.createTextNode("Health");
+      zatah.appendChild(tatah);
+      categorysel.appendChild(zatah);
+
+      var zatahi = document.createElement("option");
+      zatahi.setAttribute("value", "science");
+      zatahi.style.marginTop = '10px'
+      zatahi.style.marginLeft = '20px'
+      var tatahi = document.createTextNode("Science");
+      zatahi.appendChild(tatahi);
+      categorysel.appendChild(zatahi);
+
+      var zee = document.createElement("option");
+      zee.setAttribute("value", "sports");
+      zee.style.marginTop = '10px'
+      zee.style.marginLeft = '20px'
+      var tee = document.createTextNode("Sports");
+      zee.appendChild(tee);
+      categorysel.appendChild(zee);
+
+      var zeeta = document.createElement("option");
+      zeeta.setAttribute("value", "technology");
+      zeeta.style.marginTop = '10px'
+      zeeta.style.marginLeft = '20px'
+      var teeta = document.createTextNode("Technology");
+      zeeta.appendChild(teeta);
+      categorysel.appendChild(zeeta);
+
+      var sourcesel = document.createElement("SELECT");  //source
+      sourcesel.setAttribute("id", "mySelect2");
+      sourcesel.style.marginLeft = '20px'
+      sourcesel.style.marginTop = '39px'
+      sourcesel.style.width = '110px'
+      var namelab = document.createElement('label');     
+      namelab.innerHTML = "Source <sup style='color:red'><sup>";
+      namelab.style.marginLeft = '20px'
+      catdiv.appendChild(namelab)
+      catdiv.appendChild(sourcesel);
+      var w = document.createElement("option");
+      w.setAttribute("value", "");
+      var ta = document.createTextNode("all");
+      w.appendChild(ta);
+      sourcesel.appendChild(w);
+
+      var searchdiv = document.createElement("div");
+      searchdiv.setAttribute("id", "searchDiv");
+      searchdiv.style.marginTop = '32px'
+      searchdiv.style.marginLeft = '339px'
+      f.appendChild(searchdiv)
+      var but = document.createElement("BUTTON");  //search
+      var sr = document.createTextNode("Search");
+      but.appendChild(sr);
+      searchdiv.appendChild(but);
+
+
+
+      var cl = document.createElement("BUTTON");  //clear
+      cl.setAttribute("id", "clr");
+      cl.setAttribute("type", "reset");
+      cl.style.marginLeft = '76px'
+      var now = document.createTextNode("Clear");
+      cl.appendChild(now);
+      searchdiv.appendChild(cl);
+
+
+      document.getElementById('slide').appendChild(formdiv); //append div to slide 
+      document.getElementById('formDiv').appendChild(f); //append form to div
+
+      //get data from backend for form
+
+
+    }
+
+    function showquery() {
+      var text1 = "";
+      var sources = document.querySelector('#mySelect2');
+      var to = document.querySelector('#todate');
+      var from = document.querySelector('#fromdate');
+      var query = document.querySelector('#keywrd')
+      var af = Date.parse(to.value);
+      var bf = Date.parse(from.value);
+      if (af < bf) {
+        alert("Incorrect time");
+        return false;
+      }
+      let category = document.querySelector("#mySelect");
+
+
+      xmlhttp3 = new XMLHttpRequest();
+      var url = "queryget?query=" + query.value + "&from_param=" + from.value + "&sources=" + sources.value + "&to="
+        + to.value + "&category=" + category.value;
+      xmlhttp3.open('GET', url, true)
+      xmlhttp3.onreadystatechange = function () {
+        if (xmlhttp3.readyState == 4 && xmlhttp3.status === 200) {
+          try {
+            var data3 = JSON.parse(xmlhttp3.responseText);
+            // console.log(data3)
+            if (data3.exception && data3.exception.status == 'error') {
+              alert(data3.exception.message);
+              return false;
+            }
+            var soor = data3.sour;
+            var count = 0
+            document.getElementById('news').innerHTML = '';
+            for (var i = 0; i <  soor.length; i++) {
+
+              
+              var el141 = document.createElement('DIV');
+              el141.setAttribute("class", "cardss")
+              el141.setAttribute("onclick", "colap(this)")
+              el141.style.height = '200px'
+              el141.style.width = '653px'
+              el141.style.margin = '10px'
+              el141.style.padding = '10px'
+              el141.style.background = '#80808026'
+              el141.style.marginTop = '10px'
+              el141.style.marginLeft = '41px'
+              el141.style.borderRadius = '5px'
+
+              var t = document.createElement('SPAN')
+              t.style.float = 'right';
+              t.style.display  = 'none';
+              t.innerHTML = '&times'
+              el141.appendChild(t)
+
+              var Image11 = document.createElement('IMG');
+              // var links = document.createElement('A');
+              Image11.src = soor[i].urlToImage;
+              Image11.style.width = '100px'
+              Image11.style.height = '100px'
+              el141.append(Image11);
+
+              var tit11 = document.createElement("div");
+              tit11.innerHTML = '<b>' + soor[i].title + '</b>';
+              tit11.style.width = '500px'
+              tit11.style.height = '50px'
+              tit11.style.marginLeft = '120px'
+              tit11.style.marginTop = '-93px'
+              tit11.style.fontSize = '15px'
+              tit11.style.float = 'right'
+
+              el141.appendChild(tit11);
+
+              var auth = document.createElement('P');
+              auth.innerHTML = '<b>Author: </b>' + soor[i].author;
+              auth.style.width = '405px'
+              auth.style.height = '15px'
+              auth.style.marginTop = '-34px'
+              auth.style.marginBottom = '7px'
+              auth.style.marginLeft = '122px'
+              auth.style.fontSize = '11px'
+              auth.style.display = 'block'
+              el141.appendChild(auth);
+
+              var sr = document.createElement('P');
+              sr.innerHTML = '<b>Source: </b>' + soor[i].source.name;
+              sr.style.width = '405px'
+              sr.style.height = '15px'
+              sr.style.marginLeft = '121px'
+              sr.style.marginTop = '7px'
+              sr.style.fontSize = '11px'
+              sr.style.display = 'block'
+              el141.appendChild(sr);
+
+              var dt = document.createElement('P');
+              var x = soor[i].publishedAt.split('T')
+              var inpdate = new Date(x[0]);
+              dt.innerHTML = '<b>Date: </b>' + inpdate.getMonth() + "/" + inpdate.getDate() + "/" + inpdate.getFullYear();
+              dt.style.height = '50px'
+              dt.style.width = '405px'
+              dt.style.marginLeft = '122px'
+              dt.style.marginTop = '-10px'
+              dt.style.fontSize = '11px'
+              dt.style.display = 'block'
+              el141.appendChild(dt);
+
+              var description11 = document.createElement('P');
+              description11.innerHTML = soor[i].description;
+              description11.style.width = '405px'
+              description11.style.height = '20px'
+              description11.style.marginBottom = '-68px'
+              description11.style.marginLeft = '122px'
+              description11.style.marginTop = '-35px'
+              description11.style.fontSize = '11px'
+              description11.style.textOverflow = 'ellipsis'
+              description11.style.whiteSpace = 'nowrap'
+              description11.style.overflow = 'hidden'
+              el141.appendChild(description11);
+
+
+
+              var linkss = document.createElement('A');
+              linkss.innerHTML = 'See Original Post';
+              linkss.setAttribute('href', soor[i].url)
+              linkss.style.width = '405px'
+              linkss.style.height = '50px'
+              linkss.style.marginLeft = '122px'
+              linkss.style.fontSize = '11px'
+              linkss.style.marginTop = '69px'
+              linkss.style.display = 'block';
+
+              el141.appendChild(linkss);
+              document.getElementById("news").appendChild(el141);
+              count++
+
+              if (count>5){
+                el141.style.display = 'none'
+              }
+
+
+        }
+
+            var btn = document.createElement("BUTTON");
+            btn.setAttribute("id", "buy")
+            btn.style.marginLeft = '350px'
+            // btn.style.marginRight = 'auto'
+            btn.innerHTML = "Show More";
+            btn.setAttribute('onclick','onc()')
+            
+            document.getElementById("news").appendChild(btn);
+            // el141.appendChild(btn);
+
+
+
+
+            // console.log(data3);
+            return false;
+          }
+          catch (err) {
+            console.log(err.message + "in" + xmlhttp3.responseText);
+            return false;
+          }
+        }
+      }
+      xmlhttp3.send()
+      return false;
+    }
+    function onc(){
+      var xo = document.getElementsByClassName('cardss')
+      for (i=0; i<xo.length; i++){
+        xo[i].style.display = 'block'
+      }
+      var x = document.getElementById('buy')
+      x.setAttribute('onclick','showless()')
+      x.innerHTML = 'show less'
+    }
+
+    function showless(){
+      var xo = document.getElementsByClassName('cardss')
+      for (i=5; i<xo.length; i++){
+        xo[i].style.display = 'none'
+      }
+      var x = document.getElementById('buy')
+      x.setAttribute('onclick','onc()')
+      x.innerHTML = 'show less'
+    }
+
+
+    function mysource(category) {
+
+      var url1 = "category?category=" + category;
+      xmlhttp4 = new XMLHttpRequest();
+      xmlhttp4.open('GET', url1, true)
+      xmlhttp4.onreadystatechange = function () {
+        if (xmlhttp4.readyState == 4 && xmlhttp4.status === 200) {
+          try {
+            var data4 = JSON.parse(xmlhttp4.responseText);
+            mySelect2 = data4.sources
+            var sele = document.getElementById('mySelect2');
+            var lengt = sele.options.length;
+            for (i = lengt - 1; i >= 0; i--) {
+              sele.options[i] = null;
+            }
+            sele.options[sele.options.length] = new Option('all', 'all')
+            for (var i = 0; i < mySelect2.length; i++) {
+              sele[sele.options.length] = new Option(mySelect2[i].name, mySelect2[i].id)
+            }
+
+          }
+          catch (err) {
+            console.log(err.message + "in" + xmlhtt4.responseText);
+            return;
+          }
+        }
+      }
+      xmlhttp4.send();
+    }
+
+
+    function colap (comp){
+     
+      var ch = comp.children
+      if (ch[0].style.display === 'none'){
+        var ele = document.getElementsByClassName('cardss')
+      for (let i =0; i < ele.length; i++){
+        var c = ele[i].children
+        c[0].style.display = 'none'
+      c[3].style.display = 'none'
+      c[4].style.display = 'none'
+      c[5].style.display = 'none'
+      c[7].style.display = 'none'
+
+      }
+      ch[0].style.display = 'block'
+      ch[3].style.display = 'block'
+      ch[4].style.display = 'block'
+      ch[5].style.display = 'block'
+      ch[7].style.display = 'block'
+
+      
+      
+
+
+      }
+      else {
+        ch[0].style.display = 'none'
+      ch[3].style.display = 'none'
+      ch[4].style.display = 'none'
+      ch[5].style.display = 'none'
+      ch[7].style.display = 'none'
+      }
+
+
+    }
+
+// function checkform(f){
+//   re = /^\d{1,2}\/\d{1,2}\/\d{4}$/;
+//   if(f.fromdate.value!="" && f.fromdate.value.match(re)) {
+//     alert("Invalid date format: " + form.fromdate.value);
+
+//   }
+// }
+
+
+  </script>
+
+
+</head>
+
+<body>
+
+
+  <div id="left">
+    <div class="gro" style="width: 100px; height: 70px; margin-left: 270px; margin-top: 14px;">
+      <button id="googleBtn" class="btnHover" style="height:35px; width:inherit; background-color: grey; color:white; border:none" onclick="go('googleSearch')"> Google News</button>
+      <button id="searchBtn" class="btnHover" style="height:35px; width:inherit; background-color: #f5f5f5; color: black; border:none" type="button" onclick="go('search')">Search</button></div>
+
+  </div>
+  <div class="right">
+    <div id="slide" style="height: 400px;"></div>
+    <div id="news" style="height: 1000px; width: 1000px; padding-top: 10px;"></div>
+
+  </div>
+
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+
+</html>
